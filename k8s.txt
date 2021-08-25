@@ -1,0 +1,22 @@
+2-logs errors during script running i.e if any commands has a none 0 exit code the scripts exists and returns the errors
+3-sets an alias to match path of command needed to run
+
+
+6-export sets an environmental variable 
+9-sets the cluser_name variable to a part of the git hash 
+10- sets the k8s vpc ip plock
+11 - sets the db vpc ip blocks
+
+14 - 16 gets all database vpcs with name tagged database
+
+19 - 25 checks if database exists else continue
+
+28 - outputs contents of the cluster config yaml file and subs the values with 9-11
+
+32 - uses the file created above to create the cluser or returns cluster already exists if cluster present.
+
+35 - 39 gets the VPCs Ids with the K8s in it 
+
+43 - deploys the ingress controller
+
+46 - gets the public ipaddress of the k8s cluster and echos it.
