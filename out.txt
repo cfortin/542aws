@@ -1,0 +1,78 @@
++ alias aws=/usr/local/bin/aws
++ export AWS_DEFAULT_REGION=eu-west-2
++ AWS_DEFAULT_REGION=eu-west-2
+++ git rev-parse --short HEAD
++ cluster_name=9b7ea60
++ k8s_vpc_cidr_block=10.142.0.0/16
++ dbs_vpc_cidr_block=10.141.0.0/16
+++ aws ec2 describe-vpcs --filters Name=tag:Name,Values=Database --output=text --query 'Vpcs[].[VpcId]'
++ database_vpc=vpc-054a8be83f3973808
++ '[' -z vpc-054a8be83f3973808 ']'
++ echo 'Database VPC vpc-054a8be83f3973808 discovered. We are going to assume that there is Databases in there.'
+Database VPC vpc-054a8be83f3973808 discovered. We are going to assume that there is Databases in there.
++ cat clusterConfig.yaml
++ K8S_VPC_CIDR_BLOCK=10.142.0.0/16
++ CLUSTER_NAME=9b7ea60
++ envsubst
++ eksctl create cluster -f 9b7ea60.yaml
+2021-08-25 13:07:40 [ℹ]  eksctl version 0.62.0
+2021-08-25 13:07:40 [ℹ]  using region eu-west-2
+2021-08-25 13:07:40 [ℹ]  setting availability zones to [eu-west-2a eu-west-2b eu-west-2c]
+2021-08-25 13:07:40 [ℹ]  subnets for eu-west-2a - public:10.142.0.0/19 private:10.142.96.0/19
+2021-08-25 13:07:40 [ℹ]  subnets for eu-west-2b - public:10.142.32.0/19 private:10.142.128.0/19
+2021-08-25 13:07:40 [ℹ]  subnets for eu-west-2c - public:10.142.64.0/19 private:10.142.160.0/19
+2021-08-25 13:07:40 [ℹ]  nodegroup "ng-1" will use "ami-0e6732e69988617b8" [AmazonLinux2/1.20]
+2021-08-25 13:07:40 [ℹ]  using Kubernetes version 1.20
+2021-08-25 13:07:40 [ℹ]  creating EKS cluster "9b7ea60" in "eu-west-2" region with un-managed nodes
+2021-08-25 13:07:40 [ℹ]  1 nodegroup (ng-1) was included (based on the include/exclude rules)
+2021-08-25 13:07:40 [ℹ]  will create a CloudFormation stack for cluster itself and 1 nodegroup stack(s)
+2021-08-25 13:07:40 [ℹ]  will create a CloudFormation stack for cluster itself and 0 managed nodegroup stack(s)
+2021-08-25 13:07:40 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=eu-west-2 --cluster=9b7ea60'
+2021-08-25 13:07:40 [ℹ]  CloudWatch logging will not be enabled for cluster "9b7ea60" in "eu-west-2"
+2021-08-25 13:07:40 [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=eu-west-2 --cluster=9b7ea60'
+2021-08-25 13:07:40 [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "9b7ea60" in "eu-west-2"
+2021-08-25 13:07:40 [ℹ]  2 sequential tasks: { create cluster control plane "9b7ea60", 3 sequential sub-tasks: { wait for control plane to become ready, 1 task: { create addons }, create nodegroup "ng-1" } }
+2021-08-25 13:07:40 [ℹ]  building cluster stack "eksctl-9b7ea60-cluster"
+2021-08-25 13:07:41 [ℹ]  deploying stack "eksctl-9b7ea60-cluster"
+2021-08-25 13:19:43 [ℹ]  waiting for CloudFormation stack "eksctl-9b7ea60-cluster"
+2021-08-25 13:23:46 [ℹ]  building nodegroup stack "eksctl-9b7ea60-nodegroup-ng-1"
+2021-08-25 13:23:46 [ℹ]  deploying stack "eksctl-9b7ea60-nodegroup-ng-1"
+2021-08-25 13:23:46 [ℹ]  waiting for CloudFormation stack "eksctl-9b7ea60-nodegroup-ng-1"
+2021-08-25 13:28:26 [ℹ]  waiting for the control plane availability...
+2021-08-25 13:28:26 [✔]  saved kubeconfig as "/home/ubuntu/.kube/config"
+2021-08-25 13:28:26 [ℹ]  no tasks
+2021-08-25 13:28:26 [✔]  all EKS cluster resources for "9b7ea60" have been created
+2021-08-25 13:28:26 [ℹ]  adding identity "arn:aws:iam::533016277303:role/eksctl-9b7ea60-nodegroup-ng-1-NodeInstanceRole-13F91LM5MPAV8" to auth ConfigMap
+2021-08-25 13:28:26 [ℹ]  nodegroup "ng-1" has 0 node(s)
+2021-08-25 13:28:26 [ℹ]  waiting for at least 2 node(s) to become ready in "ng-1"
+2021-08-25 13:29:23 [ℹ]  nodegroup "ng-1" has 2 node(s)
+2021-08-25 13:29:23 [ℹ]  node "ip-10-142-109-15.eu-west-2.compute.internal" is ready
+2021-08-25 13:29:23 [ℹ]  node "ip-10-142-161-191.eu-west-2.compute.internal" is ready
+2021-08-25 13:31:25 [ℹ]  kubectl command should work with "/home/ubuntu/.kube/config", try 'kubectl get nodes'
+2021-08-25 13:31:25 [✔]  EKS cluster "9b7ea60" in "eu-west-2" region is ready
+++ aws ec2 describe-vpcs --filters Name=tag:alpha.eksctl.io/cluster-name,Values=9b7ea60 --output=text --query 'Vpcs[].[VpcId]'
++ k8s_vpc=vpc-04ffdd43fb3537593
++ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/aws/deploy.yaml
+namespace/ingress-nginx created
+serviceaccount/ingress-nginx created
+configmap/ingress-nginx-controller created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx created
+role.rbac.authorization.k8s.io/ingress-nginx created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx created
+service/ingress-nginx-controller-admission created
+service/ingress-nginx-controller created
+deployment.apps/ingress-nginx-controller created
+validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created
+serviceaccount/ingress-nginx-admission created
+clusterrole.rbac.authorization.k8s.io/ingress-nginx-admission created
+clusterrolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+role.rbac.authorization.k8s.io/ingress-nginx-admission created
+rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
+job.batch/ingress-nginx-admission-create created
+job.batch/ingress-nginx-admission-patch created
+++ kubectl get service ingress-nginx-controller -n ingress-nginx -o 'jsonpath={.status.loadBalancer.ingress[0].hostname}'
++ export ingress_external_endpoint=
++ ingress_external_endpoint=
++ echo 'public endpoint of our kubernetes cluster is . You probably need to do something with that.'
+public endpoint of our kubernetes cluster is . You probably need to do something with that.

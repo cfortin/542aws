@@ -6,7 +6,7 @@ alias aws='/usr/local/bin/aws'
 export AWS_DEFAULT_REGION=eu-west-2 
 
 # Get the git commit sha. This is useful to ensure that our staging and production environments are the same.
-cluster_name=$(git rev-parse --short HEAD)
+# cluster_name=$(git rev-parse --short HEAD)
 
 #IP ranges and names
 dbs_vpc_cidr_block=10.141.0.0/16
