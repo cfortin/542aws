@@ -1,0 +1,36 @@
+database.sh
+------------
+2-logs errors during script running i.e if any commands has a none 0 exit code the scripts exists and returns the errors
+3-sets an alias to match path of command needed to run
+
+
+6-export sets an environmental variable 
+
+
+9-sets the cluser_name variable to a part of the git hash 
+
+
+12 - 13 sets ip blocks addresses
+
+sets subnet names
+sets availiability zones
+
+
+
+19-20 gets the databases VPCs
+
+
+
+24 - checks if database exists
+
+25-30- creates a database if it doesnt exist
+
+33-45 creates subnet for databases  in each availiability zone. adding one subnet for each zone.
+
+49-52 creates the subnet group using output of 33-45 which is the subnet_ids
+
+55-63 creates the database instances setting its various configurations such as name, password, etc
+
+64- Echos created instances
+
+66- if database exists it echos found database.
