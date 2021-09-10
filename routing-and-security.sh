@@ -53,8 +53,6 @@ aws ec2 create-route \
              --destination-cidr-block $k8s_vpc_cidr_block \
              --vpc-peering-connection-id $vpc_peering_connection_id
 
-exit 0
-
 # Create route table entries in kubernetes VPC
 for _route_table in $k8s_route_tables
     do
