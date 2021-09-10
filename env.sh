@@ -3,6 +3,13 @@
 # $ source env.sh --staging for staging environment
 # $ source env.sh --production for production environment
 
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+    echo "script ${BASH_SOURCE[0]} is being sourced"
+else
+    echo "ERROR: you probably want to source this script with \$source ${BASH_SOURCE[0]} --staging"
+    exit 1
+fi
+
 alias aws='/usr/local/bin/aws'
 
 # This script assumes that you ~/.aws/credentials file looks something like below.
@@ -23,7 +30,7 @@ elif [[ $* == *--staging ]]; then
     export AWS_PROFILE=533016277303
     echo "You are in the staging environment."
 else
-    echo "please specify --production or --staging"
+    echo "ERROR: please specify --production or --staging"
     return
 fi
 
@@ -45,3 +52,8 @@ aws rds describe-db-instances \
 	VpcId:DBSubnetGroup.VpcId}'
 
 aws eks list-clusters
+
+first_cluster_id=$(aws eks list-clusters --output json --query clusters[0])
+example_command="aws eks update-kubeconfig --name $first_cluster_id"
+echo "to set up your kubeconfig please run:"
+echo $example_command
