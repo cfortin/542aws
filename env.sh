@@ -24,7 +24,7 @@ elif [[ $* == *--staging ]]; then
     echo "You are in the staging environment."
 else
     echo "please specify --production or --staging"
-    exit 1
+    return
 fi
 
 export CLUSTER_NAME=my_awesome_cluster
