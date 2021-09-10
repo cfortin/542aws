@@ -1,9 +1,8 @@
+#!/bin/bash
 # This script will help you set up your environment for aws and help you understand where you are. 
 # $ source env.sh --staging for staging environment
 # $ source env.sh --production for production environment
 
-#!/bin/bash
-set -euo pipefail
 alias aws='/usr/local/bin/aws'
 
 # This script assumes that you ~/.aws/credentials file looks something like below.
