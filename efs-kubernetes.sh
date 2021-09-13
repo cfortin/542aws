@@ -4,10 +4,10 @@ set -euxo pipefail
 alias aws='/usr/local/bin/aws'
 
 # cluster_name=$(git rev-parse --short HEAD)
-export cluster_name=d56baae
+export cluster_name=staging-fdf8b10
 # filesystem_id=fs-d1f11b21
 export AWS_ACCOUNT_ID=533016277303
-export AWS_DEFAULT_REGION=eu-west-2
+export AWS_DEFAULT_REGION=eu-west-1
 
 ##########################################
 # Create the filesystem and grab its ID. #
@@ -40,6 +40,7 @@ security_group_id=$(aws ec2 create-security-group \
     --vpc-id $k8s_vpc_id \
     --output text)
 
+# port 2049 open for NFS
 aws ec2 authorize-security-group-ingress \
     --group-id $security_group_id \
     --protocol tcp \
@@ -83,7 +84,7 @@ eksctl create iamserviceaccount \
 aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $cluster_name
 
 # Install the EFS driver for K8s
-kubectl apply -f "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.3"
+kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.3"
 
 # Delete the storage class before we can create another
 kubectl delete sc efs-sc
