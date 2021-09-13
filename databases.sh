@@ -3,7 +3,7 @@ set -xeuo pipefail
 alias aws='/usr/local/bin/aws'
 
 # AWS Region
-export AWS_DEFAULT_REGION=eu-west-2 
+export AWS_DEFAULT_REGION=eu-west-1
 
 # Get the git commit sha. This is useful to ensure that our staging and production environments are the same.
 # cluster_name=$(git rev-parse --short HEAD)
@@ -53,17 +53,16 @@ if [ -z "$database_vpc" ]
 
         # Deploy database instances
         aws rds create-db-instance \
-                --db-instance-identifier test-mysql-instance \
-                --db-instance-class db.t3.micro \
+                --db-instance-identifier staging-mysql-instance \
+                --db-instance-class db.m4.large \
                 --db-subnet-group-name databaseSubnetGroup \
                 --engine mysql \
+                --publicly-accessible \
                 --master-username admin \
                 --master-user-password secret99 \
-                --allocated-storage 20
+                --allocated-storage 150
      
         echo vpc $database_vpc was created with subnets: "${subnet_ids[@]}"
     else
         echo "Database VPC $database_vpc discovered. We are going to assume that there is Databases in there."
 fi
-
-
