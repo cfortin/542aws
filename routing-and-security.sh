@@ -3,10 +3,11 @@ set -xeuo pipefail
 alias aws='/usr/local/bin/aws'
 
 # AWS Region
-export AWS_DEFAULT_REGION=eu-west-2 
+export AWS_DEFAULT_REGION=eu-west-1
 
 # Get the git commit sha. This is useful to ensure that our staging and production environments are the same.
-cluster_name=$(git rev-parse --short HEAD)
+#cluster_name=staging-$(git rev-parse --short HEAD)
+cluster_name=staging-fdf8b10
 
 # Grab the id and subnet of the VPC with the Kubernetes in it.
 k8s_vpc=$(aws ec2 describe-vpcs \

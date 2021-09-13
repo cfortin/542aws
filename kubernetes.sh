@@ -3,10 +3,10 @@ set -xeuo pipefail
 alias aws='/usr/local/bin/aws'
 
 # AWS Region
-export AWS_DEFAULT_REGION=eu-west-2 
+export AWS_DEFAULT_REGION=eu-west-1
 
 # Get the git commit sha. This is useful to ensure that our staging and production environments are the same.
-cluster_name=$(git rev-parse --short HEAD)
+cluster_name=staging-$(git rev-parse --short HEAD)
 k8s_vpc_cidr_block=10.143.0.0/16
 dbs_vpc_cidr_block=10.141.0.0/16
 
